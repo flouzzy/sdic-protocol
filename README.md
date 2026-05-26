@@ -1,5 +1,8 @@
-SDIC-1: Systemic Deterministic Integration of AI Capabilities
-[cite_start]Author: Charles EDOU NZE [cite: 1, 24]
+[English](README.md) | [Français](README.fr.md)
+
+# SDIC-1: Systemic Deterministic Integration of AI Capabilities
+
+Author: Charles EDOU NZE
 Status: Draft
 Type: Standards Track
 Created: 2026-05-25
@@ -7,81 +10,134 @@ Created: 2026-05-25
 
 ## Abstract
 
-Ce standard définit une architecture logicielle stricte permettant l'intégration de capacités cognitives probabilistes (telles que les Grands Modèles de Langage ou LLM) au sein d'applications d'entreprise déterministes. L'objectif premier de SDIC-1 est de supprimer l'accès direct des agents autonomes aux couches de persistance et d'exécution, en introduisant une barrière d'isolation et un registre d'intentions standardisé.
+This standard defines a strict software architecture that integrates probabilistic cognitive capabilities (Large Language Models, autonomous agents) into deterministic enterprise applications. The primary goal of SDIC-1 is to eradicate the direct access of autonomous agents to persistence and execution layers by introducing a mathematical boundary of isolation, cryptographic non-repudiation, and a standardized intent ledger.
 
-## 1. Motivation
+## 1. Introduction: The Feynman Analogy
 
-L'essor des architectures dites "AI-Native" et du "Vibe Coding" pose un risque systémique pour les industries hautement régulées (Banque, Industrie, Santé). Un modèle probabiliste ne garantit pas la répétabilité de sa structure de sortie, ce qui le rend incompatible avec les exigences de sécurité et de conformité logicielle traditionnelles. 
+To understand SDIC-1, imagine a nuclear power plant. The AI (the Large Language Model) is the radioactive core: it is immensely powerful, capable of generating massive amounts of energy (intelligence), but fundamentally chaotic, probabilistic, and dangerous if exposed directly to the outside world.
 
-À l'image des standards de la programmation structurée ou des protocoles décentralisés (EIP/ERC), SDIC-1 formalise les frontières de sécurité indispensables pour transformer une force générative imprévisible en un composant applicatif maîtrisable et auditable.
+The traditional host application is the concrete containment building and the control rods. We never expose the city directly to the radioactive core. Instead, we capture the heat (the **semantic intent**), channel it through highly resilient, strictly standardized pipes (the **JSON Schema Validator**), and use that controlled pressure to turn a turbine (the **deterministic execution**).
 
-## 2. Specification
+SDIC-1 is the exact specification for building those pipes, ensuring that an unpredictable generative force can safely power highly regulated, deterministic machinery.
 
-Le protocole repose sur l'implémentation obligatoire de quatre couches d'abstractions logicielles indépendantes du langage de programmation utilisé (Agnostic Stack).
+## 2. Mathematical Formalism of Cognitive Isolation
+
+The risk of "AI-Native" architectures lies in state degradation. Let $S$ be the deterministic state of the host system, and $C$ be the cognitive capability of the probabilistic model.
+
+Allowing an AI to directly transition the system state yields a probabilistic outcome:
+$P(S_{t+1} | S_t, C) < 1$ (The state transition is non-deterministic).
+
+SDIC-1 forces a strict separation. The model may only compute a structured Intent $I$ based on a filtered context $X$:
+$I = C(X)$
+
+A deterministic validation function $V(I)$ acts as an absolute binary gate. Let $\Phi$ be the strict expected schema:
+$$
+V(I) =
+\begin{cases}
+1, & \text{if } I \equiv \Phi \\
+0, & \text{otherwise}
+\end{cases}
+$$
+
+The state transition is subsequently handled purely by the deterministic execution engine $E$:
+$S_{t+1} = E(S_t, I)$ iff $V(I) = 1$.
+If $V(I) = 0$, the system state is preserved ($S_{t+1} = S_t$) and an exception is raised.
+
+## 3. Specification: The Agnostic Stack
+
+The protocol relies on the mandatory implementation of four agnostic layers.
 
 ```text
 +-------------------------------------------------------------+
-|                      Application Hôte                       |
-|   (Système Déterministe : Symfony, React, Go, etc.)         |
+|                      Host Application                       |
+|   (Deterministic System: Symfony, React, Go, etc.)          |
 +------------------------------+------------------------------+
                                |
-                   [1. Contexte Filtré & Prompt]
+                 [1. Filtered Context & Prompt]
                                |
                                v
 +-------------------------------------------------------------+
-|                     IA / LLM Sandbox                        |
-|   (Isolation Cognitive - Analyse & Émission d'Intention)    |
+|                     AI / LLM Sandbox                        |
+|   (Cognitive Isolation - Analysis & Intent Emission)        |
 +------------------------------+------------------------------+
                                |
-                    [2. Intention JSON brute]
+                    [2. Raw JSON Intent]
                                |
                                v
 +-------------------------------------------------------------+
-|                Couche de Contrôle Déterministe              |
-|   (Validation de Schéma Strict / Guardrails)               |
+|                Deterministic Control Layer                  |
+|   (Strict Schema Validation / Cryptographic Verification)   |
 +------------------------------+------------------------------+
                                |
-                  [3. Intention Validée / Rejet]
+                  [3. Validated Intent / Rejection]
                                |
                                v
 +-------------------------------------------------------------+
 |                        Action Ledger                        |
-|   (Registre Immuable de Persistance et d'Exécution)        |
+|   (Immutable Registry of Persistence and Execution)         |
 +-------------------------------------------------------------+
 ```
 
-### 2.1. Isolation Cognitive (The Sandbox Boundary)
-L'environnement d'exécution de l'IA (LLM, Agent) doit être structurellement isolé de l'infrastructure hôte.
-- **Règle d'or :** L'IA ne possède aucun droit d'écriture réseau, aucun accès direct à la base de données principale, et aucun droit d'appel d'API mutatives.
-- **Contrat d'interface :** L'IA agit exclusivement en tant que transformateur sémantique. Elle reçoit un flux textuel filtré et retourne uniquement un objet structuré représentant une intention d'action, sans pouvoir l'exécuter elle-même.
+### 3.1. Cognitive Isolation (The Sandbox Boundary)
 
-### 2.2. Déterminisme Sémantique (Zero-Trust Schema Validation)
-Toute donnée sortant de la Sandbox Cognitive doit être traitée comme une saisie utilisateur non sécurisée (Untrusted Input).
-- **Mécanisme de contrôle :** L'application hôte doit intercepter le payload de l'IA et le soumettre à une validation de schéma strict (ex: JSON Schema).
-- **Gestion des déviations :** Si la structure de la réponse de l'IA diverge du schéma attendu (changement de clé, type de donnée erroné, omission d'un champ obligatoire), l'application hôte doit lever une exception logicielle immédiate. Le système doit alors basculer sur un processus de secours déterministe (Fallback) ou requérir une arbitrage humain.
+The AI's execution environment must be structurally isolated.
 
-### 2.3. L'Action Ledger (L'Auditabilité Temporelle)
-Chaque action validée issue d'une intention de l'IA doit être enregistrée de manière immuable avant son exécution.
-Le registre d'action (Action Ledger) doit sauvegarder un instantané contenant les structures de données suivantes :
+- **Golden Rule:** The AI possesses no network write permissions, no direct database access, and no rights to invoke mutative APIs.
+- **Interface Contract:** The AI acts exclusively as a semantic transformer. It emits an intent object, incapable of executing it itself.
 
-| Champ | Type | Description |
+### 3.2. Semantic Determinism (Zero-Trust Schema Validation)
+
+All outputs from the Sandbox must be treated as `Untrusted Input`. The validation layer must enforce strict schema adherence.
+When defining JSON Schemas within the repository, strictness must be enforced by setting `"additionalProperties": false` at the top level and on applicable nested objects to prevent unspecified key injections.
+
+**Example Strict Schema Definition:**
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TransferIntent",
+  "type": "object",
+  "properties": {
+    "action": { "type": "string", "enum": ["transfer_funds"] },
+    "target_id": { "type": "string", "pattern": "^[0-9a-fA-F-]{36}$" },
+    "justification": { "type": "string" },
+    "signature": { "type": "string" }
+  },
+  "required": ["action", "target_id", "justification", "signature"],
+  "additionalProperties": false
+}
+```
+
+### 3.3. Cryptographic Identity & Proof of Intent
+
+For fully autonomous agent operations, an intent must be non-repudiable. To prevent replay and relabeling attacks, the Action Ledger requires a cryptographic signature.
+The agent must generate a signature $\sigma$ over the canonical representation of the entire entry (excluding the signature field itself).
+
+$\sigma = Sign_{AgentPrivKey}(Hash(Canonical(I)))$
+
+The host application must validate $\sigma$ against the agent's known Public Key prior to execution.
+
+### 3.4. The Action Ledger (Temporal Auditability)
+
+Each validated action must be immutably recorded before execution.
+
+| Field | Type | Description |
 |---|---|---|
-| transaction_id | UUIDv4 | Identifiant unique et immuable de la transaction. |
-| timestamp | DateTime | Horodatage précis de l'interaction à l'échelle du système. |
-| model_snapshot | String | Version exacte du modèle utilisé (ex: claude-3-5-sonnet, gpt-5-preview). |
-| hyperparameters | Object | Configuration du modèle au runtime (Température, Top_P, Max Tokens). |
-| cognitive_context | Text | Copie exacte du prompt système et des données injectées via RAG. |
-| raw_response | Text | Réponse brute renvoyée par le modèle avant validation. |
+| transaction_id | UUIDv4 | Unique, immutable identifier of the transaction. |
+| timestamp | DateTime | System-level precise temporal marker. |
+| model_snapshot | String | Exact version of the model (e.g., claude-3-5-sonnet). |
+| hyperparameters | Object | Runtime model configuration (Temperature, Top_P). |
+| cognitive_context | Text | Exact copy of the system prompt and injected data. |
+| raw_response | Text | Unaltered raw response returned by the model. |
+| proof_of_intent | String | Cryptographic signature of the canonical intent. |
 
-### 2.4. L'Hydratation Chirurgicale (Context Efficiency Boundary)
-Afin de minimiser la surface d'attaque par injection de prompt, la latence et les coûts opérationnels, la fenêtre de contexte envoyée à l'IA doit être restreinte au strict minimum nécessaire.
-- **Principe d'atténuation :** Il est interdit de transmettre des tables de bases de données entières ou des historiques complets non filtrés.
-- **Spécification :** L'application hôte doit utiliser des stratégies d'indexation vectorielle (RAG) ou de filtrage applicatif pour extraire uniquement l'atome de donnée requis pour la résolution de la tâche en cours.
+### 3.5. Continuous Memory & Swarm Consensus
 
-## 3. Rationale
-Le choix d'une architecture découpée et asynchrone plutôt que d'une intégration native des agents d'exécution (comme le Function Calling direct ou les agents CLI autonomes) est motivé par la nécessité de garantir la gouvernance des systèmes.
-En déléguant la génération de l'intention à l'IA et la validation/exécution au code traditionnel, SDIC-1 permet aux ingénieurs seniors de conserver le contrôle absolu sur les règles métiers de l'entreprise.
+To enable persistence of consciousness (reminiscent of autonomous digital minds), the AI cannot store state internally. State is maintained in the Action Ledger and deterministically "re-hydrated" into the AI's context window on each invocation.
+
+For multi-agent systems (Swarm Consensus), agents may not mutate shared state directly. They must emit $Intent_{Proposal}$ to a shared deterministic ledger, which triggers a consensus validation function before committing the state.
 
 ## 4. Security Considerations
-- **Prompt Injection Mitigation :** Le respect strict du Pilier II (Déterminisme Sémantique) garantit que même si un attaquant parvient à manipuler le modèle via une injection de prompt, l'output généré sera rejeté par le validateur de schéma si l'intention ne correspond pas aux structures autorisées.
-- **Data Leakage Prevention :** Le respect du Pilier IV limite l'exposition accidentelle de données sensibles de l'entreprise vers des modèles tiers ou mutualisés.
+
+- **Prompt Injection Mitigation:** Strict Semantic Determinism guarantees that even if a model is successfully hijacked via prompt injection, any output diverging from the strict JSON Schema will be deterministically rejected by the host.
+- **Relabeling Attacks:** Validating the signature over the *canonical representation* prevents attackers from subtly modifying the payload in transit.
