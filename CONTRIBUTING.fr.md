@@ -9,7 +9,7 @@ Nous accueillons avec plaisir les contributions à la norme SDIC-1 (Systemic Det
 - **Documentation Bilingue :** La documentation du projet doit être bilingue, fournissant des versions en français et en anglais avec des liens de navigation croisée en haut de chaque fichier. Si vous ajoutez ou mettez à jour un fichier, vous devez fournir sa contrepartie traduite.
 - **Pas de Charabia d'Entreprise :** Tous les fichiers Markdown doivent être parfaitement formatés, syntaxiquement corrects et exempts de charabia d'entreprise (corporate fluff) ou de texte de remplacement.
 - **Analogies de Style Feynman :** Lors de la rédaction ou de l'expansion de la documentation standard, incluez des analogies de style Feynman pour fournir une clarté et une élégance techniques profondes.
-- **Formalismes Rigoureux :** Utilisez des formalismes mathématiques/empiriques rigoureux en parallèle des explications pour maintenir la profondeur technique de la norme.
+- **Exemples Concrets :** Tout exemple concret, application ou algorithme est le bienvenu en parallèle des explications pour maintenir la profondeur technique de la norme.
 
 ## Spécifications Techniques
 
@@ -19,7 +19,7 @@ Nous accueillons avec plaisir les contributions à la norme SDIC-1 (Systemic Det
 
 ## Demande de Commentaires (RFCs)
 
-- **Format EIP/ERC :** Les propositions de RFC doivent suivre le format Standard Ethereum (EIP/ERC).
+- **Format Protocole Internet Standard :** Les propositions de RFC doivent suivre le format classique de Protocole Internet (IETF RFC).
 - **Répertoire :** Les RFC doivent être stockées dans le répertoire `ecosystem/RFCs/`.
 
 ## Directives pour les Commits

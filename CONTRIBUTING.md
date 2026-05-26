@@ -9,7 +9,7 @@ We welcome contributions to the SDIC-1 (Systemic Deterministic Integration of AI
 - **Bilingual Documentation:** The project's documentation must be bilingual, providing both French and English versions with cross-navigation links at the top of each file. If you add or update a file, you must provide its translated counterpart.
 - **No Corporate Fluff:** All Markdown files must be perfectly formatted, syntactically correct, and free of corporate fluff or placeholder text.
 - **Feynman-style Analogies:** When writing or expanding standard documentation, include Feynman-style analogies to provide deep technical clarity and elegance.
-- **Rigorous Formalisms:** Use rigorous mathematical/empirical formalisms alongside explanations to maintain the technical depth of the standard.
+- **Concrete Examples:** Concrete examples, applications, and algorithms are highly welcomed alongside explanations to maintain the technical depth of the standard.
 
 ## Technical Specifications
 
@@ -19,7 +19,7 @@ We welcome contributions to the SDIC-1 (Systemic Deterministic Integration of AI
 
 ## Request for Comments (RFCs)
 
-- **EIP/ERC Format:** RFC proposals must follow the Ethereum Standard (EIP/ERC) format.
+- **Standard Internet Protocol Format:** RFC proposals must follow the classic Internet Protocol (IETF RFC) format.
 - **Directory:** RFCs must be stored in the `ecosystem/RFCs/` directory.
 
 ## Commit Guidelines
