@@ -17,11 +17,26 @@ Ce standard définit une architecture logicielle stricte qui intègre les capaci
 
 ## 1. Introduction
 
-Pour comprendre le SDIC-1, imaginez une centrale nucléaire. L'IA (le Grand Modèle de Langage) est le cœur radioactif : il est immensément puissant, capable de générer des quantités massives d'énergie (l'intelligence), mais fondamentalement chaotique, probabiliste et dangereux s'il est exposé directement au monde extérieur.
+Pour comprendre le SDIC-1, imaginez une centrale nucléaire. Le cœur radioactif est immensément puissant, capable de générer des quantités massives d'énergie, mais il est fondamentalement chaotique, probabiliste et dangereux s'il est exposé directement au monde extérieur.
 
-L'application hôte traditionnelle est le bâtiment de confinement en béton et les barres de contrôle. Nous n'exposons jamais la ville directement au cœur radioactif. Au lieu de cela, nous captons la chaleur (l'**intention sémantique**), la canalisons à travers des tuyaux hautement résilients et strictement standardisés (le **Validateur de Schéma JSON**), et utilisons cette pression contrôlée pour faire tourner une turbine (l'**exécution déterministe**).
+Le bâtiment de confinement en béton et les barres de contrôle encadrent ce cœur. Nous n'exposons jamais la ville directement à la radiation. Au lieu de cela, nous captons la chaleur dégagée, la canalisons à travers des tuyaux hautement résilients et strictement standardisés, et utilisons cette pression contrôlée pour faire tourner une turbine.
 
-Le SDIC-1 est la spécification exacte pour construire ces tuyaux, garantissant qu'une force générative imprévisible puisse alimenter en toute sécurité des machines déterministes hautement réglementées.
+Le SDIC-1 est la spécification exacte pour construire ces tuyaux, garantissant qu'une force générative imprévisible puisse alimenter en toute sécurité des machines déterministes hautement réglementées. Dans cette architecture, chaque composant de l'analogie correspond à un élément précis et rigoureux du système :
+
+**Le cœur radioactif : L'Intelligence Artificielle (Le Modèle Probabiliste)**
+Il représente le moteur cognitif (les Grands Modèles de Langage ou les agents autonomes). Tout comme le cœur nucléaire produit de l'énergie de manière chaotique, l'IA génère de la compréhension et des données par des calculs probabilistes massifs. Ses sorties sont puissantes mais non déterministes. C'est pourquoi le cœur ne doit avoir aucun accès direct aux mécanismes de contrôle critiques ou aux bases de données du système.
+
+**Le bâtiment de confinement et les barres de contrôle : L'Application Hôte**
+Il s'agit du système déterministe classique (tel qu'une application métier en Symfony, React, Go ou Java). Son rôle est d'encapsuler la puissance de l'IA, de lui fournir un environnement d'exécution stérile (Sandbox) et de moduler son activité via des contextes stricts. L'hôte assure l'isolation complète et prévient toute corruption de l'état système par des opérations non maîtrisées.
+
+**La chaleur captée : L'Intention Sémantique**
+La chaleur représente l'action proposée par l'IA. Au lieu de modifier l'état directement, l'IA exprime ce qu'elle "souhaite" accomplir sous forme de données. C'est cette volonté brute, extraite du modèle, qui constitue l'énergie informationnelle du système. Elle est le pont abstrait entre la compréhension du contexte et l'exécution de l'action.
+
+**Les tuyaux résilients : Le Validateur de Schéma JSON (Déterminisme Sémantique)**
+Ces tuyaux incarnent la frontière mathématique et de contrôle. Ils réceptionnent l'intention sémantique brute et vérifient de manière intraitable qu'elle correspond parfaitement à un Schéma JSON cryptographiquement et structurellement défini. Toute intention (chaleur) qui ne respecte pas cette forme canonique stricte est rejetée ou dissipée, garantissant que seule une information conforme et sécurisée atteint les turbines.
+
+**La turbine : L'Exécution Déterministe (Le Moteur de Transition d'État)**
+La turbine transforme la pression régulée en action prévisible et utile. Une fois que l'intention sémantique a passé avec succès le filtre déterministe des tuyaux, elle est transmise au moteur d'exécution (l'Action Ledger et la logique métier). C'est uniquement ici que l'état du système est muté, avec une certitude mathématique absolue, isolant ainsi la persistance de l'univers probabiliste.
 
 ## 2. Formalisme Mathématique de l'Isolation Cognitive
 
