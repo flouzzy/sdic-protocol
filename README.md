@@ -15,11 +15,26 @@ This standard defines a strict software architecture that integrates probabilist
 
 ## 1. Introduction
 
-To understand SDIC-1, imagine a nuclear power plant. The AI (the Large Language Model) is the radioactive core: it is immensely powerful, capable of generating massive amounts of energy (intelligence), but fundamentally chaotic, probabilistic, and dangerous if exposed directly to the outside world.
+To understand SDIC-1, imagine a nuclear power plant. The radioactive core is immensely powerful, capable of generating massive amounts of energy, but it is fundamentally chaotic, probabilistic, and dangerous if exposed directly to the outside world.
 
-The traditional host application is the concrete containment building and the control rods. We never expose the city directly to the radioactive core. Instead, we capture the heat (the **semantic intent**), channel it through highly resilient, strictly standardized pipes (the **JSON Schema Validator**), and use that controlled pressure to turn a turbine (the **deterministic execution**).
+The concrete containment building and the control rods encase this core. We never expose the city directly to the radiation. Instead, we capture the generated heat, channel it through highly resilient, strictly standardized pipes, and use that controlled pressure to turn a turbine.
 
-SDIC-1 is the exact specification for building those pipes, ensuring that an unpredictable generative force can safely power highly regulated, deterministic machinery.
+SDIC-1 is the exact specification for building those pipes, ensuring that an unpredictable generative force can safely power highly regulated, deterministic machinery. In this architecture, each component of the analogy corresponds to a precise and rigorous element of the system:
+
+**The Radioactive Core: Artificial Intelligence (The Probabilistic Model)**
+This represents the cognitive engine (Large Language Models or autonomous agents). Just as the nuclear core produces energy chaotically, the AI generates understanding and data through massive probabilistic calculations. Its outputs are powerful but non-deterministic. This is why the core must have absolutely no direct access to critical control mechanisms or system databases.
+
+**The Containment Building and Control Rods: The Host Application**
+This is the classic deterministic system (such as a business application built in Symfony, React, Go, or Java). Its role is to encapsulate the AI's power, provide it with a sterile execution environment (Sandbox), and modulate its activity via strict contexts. The host ensures complete isolation and prevents any corruption of the system state by unmanaged operations.
+
+**The Captured Heat: The Semantic Intent**
+The heat represents the action proposed by the AI. Instead of modifying the state directly, the AI expresses what it "wishes" to accomplish in the form of data. It is this raw willpower, extracted from the model, that constitutes the informational energy of the system. It is the abstract bridge between context comprehension and action execution.
+
+**The Resilient Pipes: The JSON Schema Validator (Semantic Determinism)**
+These pipes embody the mathematical and control boundary. They receive the raw semantic intent and intractably verify that it perfectly matches a cryptographically and structurally defined JSON Schema. Any intent (heat) that does not conform to this strict canonical form is rejected or dissipated, ensuring that only compliant and secure information reaches the turbines.
+
+**The Turbine: Deterministic Execution (The State Transition Engine)**
+The turbine transforms the regulated pressure into predictable and useful action. Once the semantic intent has successfully passed the deterministic filter of the pipes, it is transmitted to the execution engine (the Action Ledger and business logic). It is only here that the system state is mutated, with absolute mathematical certainty, thereby isolating persistence from the probabilistic universe.
 
 ## 2. Mathematical Formalism of Cognitive Isolation
 
