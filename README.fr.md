@@ -2,11 +2,11 @@
 
 # SDIC-1: Systemic Deterministic Integration of AI Capabilities
 
-Author: Charles EDOU NZE
+- Author: Charles EDOU NZE
 
-Status: Draft
+- Status: Draft
 
-Type: Standards Track
+- Type: Standards Track
 
 Created: 2026-05-25
 ---
@@ -15,7 +15,7 @@ Created: 2026-05-25
 
 Ce standard définit une architecture logicielle stricte qui intègre les capacités cognitives probabilistes (Grands Modèles de Langage, agents autonomes) dans des applications d'entreprise déterministes. L'objectif principal du SDIC-1 est d'éradiquer l'accès direct des agents autonomes aux couches de persistance et d'exécution en introduisant une frontière mathématique d'isolation, une non-répudiation cryptographique et un registre d'intentions standardisé.
 
-## 1. Introduction : L'Analogie de Feynman
+## 1. Introduction
 
 Pour comprendre le SDIC-1, imaginez une centrale nucléaire. L'IA (le Grand Modèle de Langage) est le cœur radioactif : il est immensément puissant, capable de générer des quantités massives d'énergie (l'intelligence), mais fondamentalement chaotique, probabiliste et dangereux s'il est exposé directement au monde extérieur.
 
