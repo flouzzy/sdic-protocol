@@ -3,8 +3,11 @@
 # SDIC-1: Systemic Deterministic Integration of AI Capabilities
 
 Author: Charles EDOU NZE
+
 Status: Draft
+
 Type: Standards Track
+
 Created: 2026-05-25
 ---
 
