@@ -177,7 +177,25 @@ Toute réponse d'exécution DOIT adhérer au schéma suivant :
     "reason",
     "response"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": ["REFUSED", "REJECTED"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "response": {
+            "const": ""
+          }
+        }
+      }
+    }
+  ]
 }
 ```
 
