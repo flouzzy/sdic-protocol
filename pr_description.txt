@@ -1,0 +1,15 @@
+Summary of Changes
+
+This PR introduces SDIC-RFC-0003, detailing the PRISM (Protocol for Routed Intelligent Specialized Models) architecture. It adds both English and French versions of the specification, outlining a DNS-inspired semantic routing system for specialized Large Language Models.
+
+Rationale & Architectural Impact
+
+The current centralized LLM architectures have structural limitations such as lack of explicit refusal mechanisms and answering out-of-scope queries. This PRISM architecture directly targets these limitations by implementing a "routing before resolution" approach, fundamentally altering how queries are directed across distributed networks of specialized models.
+
+Proposed Specification Changes
+
+The PR proposes a Central Routing Console (VSLM), a Dynamic Skills Directory (153-Registry), and a framing protocol (153-key) for qualification and execution. It enforces the concept that models must explicitly state their areas of competence and decline queries falling outside them. Strict JSON schemas and UML sequence diagrams are used to ensure determinism and clarity.
+
+Backward Compatibility
+
+This standard extends the existing SDIC-1 framework and is entirely backward-compatible. Systems implementing the `v1.0.0-draft` of SDIC-1 can seamlessly integrate this new routing architecture without disrupting existing cognitive isolation boundaries or the Action Ledger.
