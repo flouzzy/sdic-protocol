@@ -17,7 +17,7 @@ This ERC defines the 8 Stages of AI Engineering Maturity, providing a determinis
 
 ## Motivation
 
-As organizations integrate Large Language Models and autonomous agents into their software development lifecycles (SDLC), they frequently experience highly uneven adoption. An organization does not exist at a single point of capability; rather, it exhibits a distribution of maturity across different teams. This asymmetry creates integration friction, unpredictable computational expenditures, and security vulnerabilities.
+As organizations integrate Large Language Models and autonomous agents into their software development lifecycles (SDLC), they frequently experience highly uneven adoption. As originally articulated by Fabien Potencier in his reflections on AI engineering maturity, an organization does not exist at a single point of capability; rather, it exhibits a distribution of maturity across different teams. This asymmetry creates integration friction, unpredictable computational expenditures, and security vulnerabilities.
 
 Establishing a standardized, deterministic pathway—from isolated local execution to fully autonomous, infrastructure-level agent orchestration—allows organizations to systematically upgrade their engineering workflows without sacrificing quality or determinism.
 

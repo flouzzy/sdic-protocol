@@ -17,7 +17,7 @@ Cet ERC définit les 8 Étapes de la Maturité en Ingénierie de l'IA, fournissa
 
 ## Motivation
 
-À mesure que les organisations intègrent les Grands Modèles de Langage (LLM) et des agents autonomes dans leur cycle de vie de développement logiciel (SDLC), elles connaissent fréquemment une adoption très inégale. Une organisation n'existe pas à un stade unique de capacité ; elle présente plutôt une distribution de maturités à travers ses différentes équipes. Cette asymétrie crée des frictions d'intégration, des dépenses de calcul imprévisibles et des vulnérabilités de sécurité.
+À mesure que les organisations intègrent les Grands Modèles de Langage (LLM) et des agents autonomes dans leur cycle de vie de développement logiciel (SDLC), elles connaissent fréquemment une adoption très inégale. Tel que formulé à l'origine par Fabien Potencier dans ses réflexions sur la maturité en ingénierie de l'IA, une organisation n'existe pas à un stade unique de capacité ; elle présente plutôt une distribution de maturités à travers ses différentes équipes. Cette asymétrie crée des frictions d'intégration, des dépenses de calcul imprévisibles et des vulnérabilités de sécurité.
 
 Établir une trajectoire standardisée et déterministe — allant d'une exécution locale isolée à une orchestration d'agents entièrement autonome au niveau de l'infrastructure — permet aux organisations de mettre à niveau systématiquement leurs flux de travail en ingénierie sans sacrifier la qualité ou le déterminisme.
 
