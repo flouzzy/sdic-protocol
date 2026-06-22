@@ -21,7 +21,7 @@ Cet ERC définit les 8 Étapes de la Maturité en Ingénierie de l'IA, fournissa
 
 Établir une trajectoire standardisée et déterministe — allant d'une exécution locale isolée à une orchestration d'agents entièrement autonome au niveau de l'infrastructure — permet aux organisations de mettre à niveau systématiquement leurs flux de travail en ingénierie sans sacrifier la qualité ou le déterminisme.
 
-## Analogie de Style Feynman : Le Réseau Municipal d'Eau
+## Analogie : Le Réseau Municipal d'Eau
 
 Considérez l'évolution de l'approvisionnement en eau d'une ville. Au départ, les habitants marchent jusqu'à une rivière et remplissent des seaux individuels à chaque fois qu'ils ont soif. Le processus est chaotique, non mesuré et dépend entièrement de l'effort individuel. Bientôt, les gens commencent à creuser leurs propres puits personnels et à construire des pompes ad hoc dans leurs jardins. Finalement, de petits quartiers mettent en commun leurs ressources pour construire des châteaux d'eau locaux, mais ceux-ci restent déconnectés du reste de la ville.
 

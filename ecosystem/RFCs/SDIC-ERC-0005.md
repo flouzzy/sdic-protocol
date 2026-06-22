@@ -21,7 +21,7 @@ As organizations integrate Large Language Models and autonomous agents into thei
 
 Establishing a standardized, deterministic pathway—from isolated local execution to fully autonomous, infrastructure-level agent orchestration—allows organizations to systematically upgrade their engineering workflows without sacrificing quality or determinism.
 
-## Feynman Analogy: The Municipal Water Grid
+## Analogy: The Municipal Water Grid
 
 Consider the evolution of a settlement's water supply. Initially, residents walk to a river and fill individual buckets whenever they are thirsty. The process is chaotic, unmeasured, and entirely dependent on individual effort. Soon, people begin digging their own personal wells and building ad-hoc pumps in their backyards. Eventually, small neighborhoods pool their resources to build local water towers, but these remain disconnected from the rest of the town.
 
