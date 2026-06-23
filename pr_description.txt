@@ -1,25 +1,12 @@
-Summary of Changes
+## Summary of Changes
+This PR introduces SDIC-ERC-001, a new standard for the Action Ledger data structure to enable deterministic multi-agent synchronization. It provides a strict JSON Schema and architectural flow to prevent state corruption when multiple probabilistic models interact concurrently.
 
-This PR introduces SDIC-ERC-0005, which establishes "The 8 Stages of AI Engineering Maturity Framework." It adds both the English (`SDIC-ERC-0005.md`) and French (`SDIC-ERC-0005.fr.md`) standard specifications, defining a deterministic and structured pathway for organizations to evaluate and evolve their AI engineering capabilities from unmanaged individual tool usage to fully autonomous, infrastructure-hosted agent architectures.
+## Rationale & Architectural Impact
+As systems move toward multi-agent Swarm Consensus, having agents arbitrarily mutate shared state directly poses a significant risk of unpredictability and race conditions. By standardizing the Action Ledger as an immutable, cryptographically verifiable registry of proposed intents, we ensure that the deterministic host application maintains absolute control over state transitions, thus protecting enterprise systems from AI unpredictability.
 
-Rationale & Architectural Impact
+## Proposed Specification Changes
+- **Target Component:** Pilier IV: Action Ledger & Pilier I: Isolation Cognitive
+- **Modification:** Added a strict JSON Schema definition for `ActionLedgerEntry` with `additionalProperties: false` enforcement, and a required `proof_of_intent` cryptographic signature over the canonical intent to prevent impersonation and unverified mutations in multi-agent environments.
 
-As organizations adopt AI capabilities within their Software Development Life Cycle (SDLC), there is often an uneven distribution of maturity, leading to integration friction, security vulnerabilities, and unpredictable computational overhead. By standardizing this maturity framework into 8 sequential stages, organizations can deterministically assess and govern their transition. The standard introduces a unified taxonomy that maps structural processes (e.g., test-driven development requirements, governance controls, and autonomous scheduling) to specific maturity stages, effectively bridging the gap between localized prompt engineering and enterprise-grade multi-agent orchestration.
-
-Proposed Specification Changes
-
-The proposed framework defines 8 distinct stages:
-1. The Void
-2. The Drift
-3. The Islands
-4. The Standardization Wager
-5. The Process Overhaul
-6. The Operating System
-7. The Smart Factory
-8. The Autonomous Factory
-
-It enforces a strict JSON Schema (`MaturityAssessment` with `"additionalProperties": false`) to deterministically evaluate organizational compliance based on governance status, context sharing levels, and infrastructure hosting paradigms.
-
-Backward Compatibility
-
-This standard operates strictly at the organizational and process level, and is fully backward-compatible with the deterministic control layer and cognitive isolation boundaries defined in `SDIC-RFC-0001` and the core `SDIC-1` standard. No existing schemas or runtime application code require modification to implement this framework.
+## Backward Compatibility
+This change is fully backward-compatible with v1.0.0-draft implementations, as it extends the abstract concept of the Action Ledger into a formalized data structure without deprecating existing validation mechanisms.
