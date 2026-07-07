@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR introduces SDIC-ERC-001, a new standard for the Action Ledger data structure to enable deterministic multi-agent synchronization. It provides a strict JSON Schema and architectural flow to prevent state corruption when multiple probabilistic models interact concurrently.
+This PR introduces SDIC-ERC-0007, an architectural extension establishing a standard for Streaming JSON Schema Validation ("Fast-Path Validation"). It allows the deterministic host application to intercept and validate token generation in real-time, halting the LLM immediately upon deviation from the expected schema.
 
 ## Rationale & Architectural Impact
-As systems move toward multi-agent Swarm Consensus, having agents arbitrarily mutate shared state directly poses a significant risk of unpredictability and race conditions. By standardizing the Action Ledger as an immutable, cryptographically verifiable registry of proposed intents, we ensure that the deterministic host application maintains absolute control over state transitions, thus protecting enterprise systems from AI unpredictability.
+In enterprise deployments, waiting for a model to completely generate a large or complex reasoning payload before validating its structural compliance introduces significant latency and computational waste. By deterministically filtering the generation token by token, we drastically reduce the latency overhead of the Guardrails layer. This limits the blast radius and operational cost of unpredictability or hallucinations early in the execution cycle.
 
 ## Proposed Specification Changes
-- **Target Component:** Pilier IV: Action Ledger & Pilier I: Isolation Cognitive
-- **Modification:** Added a strict JSON Schema definition for `ActionLedgerEntry` with `additionalProperties: false` enforcement, and a required `proof_of_intent` cryptographic signature over the canonical intent to prevent impersonation and unverified mutations in multi-agent environments.
+- **Target Component:** Deterministic Control Layer / Guardrails Layer
+- **Modification:** Added a new schema configuration `StreamingValidatorConfig` (enforcing `additionalProperties: false`) that specifies a Fast-Path validation layer capable of intercepting token streams upstream of the final, complete schema validation process.
 
 ## Backward Compatibility
-This change is fully backward-compatible with v1.0.0-draft implementations, as it extends the abstract concept of the Action Ledger into a formalized data structure without deprecating existing validation mechanisms.
+This change is fully backward-compatible with v1.0.0-draft implementations. Systems not implementing the `StreamingValidatorConfig` or those unable to process streaming data will naturally fall back to the final, post-generation JSON schema validation without any architectural disruption.
