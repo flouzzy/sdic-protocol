@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR introduces SDIC-ERC-0007, an architectural extension establishing a standard for Streaming JSON Schema Validation ("Fast-Path Validation"). It allows the deterministic host application to intercept and validate token generation in real-time, halting the LLM immediately upon deviation from the expected schema.
+This PR introduces SDIC-ERC-0008, an architectural extension establishing a standard for Deterministic Canary Verification. It allows the deterministic host application to inject a cryptographically secure, single-use token into the cognitive context to detect and filter Prompt Injection attacks at runtime.
 
 ## Rationale & Architectural Impact
-In enterprise deployments, waiting for a model to completely generate a large or complex reasoning payload before validating its structural compliance introduces significant latency and computational waste. By deterministically filtering the generation token by token, we drastically reduce the latency overhead of the Guardrails layer. This limits the blast radius and operational cost of unpredictability or hallucinations early in the execution cycle.
+To protect enterprise systems from AI unpredictability and malicious prompt injections, we need a runtime filtering mechanism that does not rely on probabilistic heuristics or secondary LLM evaluations. By forcing the model to reproduce a meaningless cryptographic string from the system prompt in its final output, we create a fragile instruction bond. If an attacker's payload successfully overrides the model's instructions, the model will inevitably drop or corrupt the Canary Token, instantly translating a probabilistic cognitive failure into a deterministic schema validation failure.
 
 ## Proposed Specification Changes
-- **Target Component:** Deterministic Control Layer / Guardrails Layer
-- **Modification:** Added a new schema configuration `StreamingValidatorConfig` (enforcing `additionalProperties: false`) that specifies a Fast-Path validation layer capable of intercepting token streams upstream of the final, complete schema validation process.
+- **Target Component:** Deterministic Control Layer / Semantic Determinism
+- **Modification:** Added a requirement for the host application to generate a single-use Canary Token ($Canary_t$) injected into the system prompt. All JSON schemas processed by the Deterministic Control Layer must be extended to enforce a `security_canary` field using `additionalProperties: false`, which is then deterministically verified against the expected token at runtime.
 
 ## Backward Compatibility
-This change is fully backward-compatible with v1.0.0-draft implementations. Systems not implementing the `StreamingValidatorConfig` or those unable to process streaming data will naturally fall back to the final, post-generation JSON schema validation without any architectural disruption.
+This change requires an update to the system prompts and JSON schemas of all deployed autonomous agents. Implementations of v1.0.0-draft without Canary Token support will not be able to validate intents enforcing this new schema, requiring host applications to adopt the token generation mechanism and inject it into the prompt pipeline.
