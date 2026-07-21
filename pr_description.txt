@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR introduces SDIC-ERC-0008, an architectural extension establishing a standard for Deterministic Canary Verification. It allows the deterministic host application to inject a cryptographically secure, single-use token into the cognitive context to detect and filter Prompt Injection attacks at runtime.
+This PR introduces SDIC-RFC-001, standardizing the Action Ledger data structure to ensure deterministic multi-agent synchronization. It implements a strict JSON schema for intent proposals and a cryptographic signing requirement for state transition requests.
 
 ## Rationale & Architectural Impact
-To protect enterprise systems from AI unpredictability and malicious prompt injections, we need a runtime filtering mechanism that does not rely on probabilistic heuristics or secondary LLM evaluations. By forcing the model to reproduce a meaningless cryptographic string from the system prompt in its final output, we create a fragile instruction bond. If an attacker's payload successfully overrides the model's instructions, the model will inevitably drop or corrupt the Canary Token, instantly translating a probabilistic cognitive failure into a deterministic schema validation failure.
+In multi-agent environments, allowing agents to independently propose unstructured state changes introduces race conditions and probabilistic outcomes. By forcing all agents to submit canonical, cryptographically signed, schema-validated intents to an append-only Action Ledger, the deterministic host system maintains absolute sequential authority over state transitions, completely isolating the persistence layer from the probabilistic agents.
 
 ## Proposed Specification Changes
-- **Target Component:** Deterministic Control Layer / Semantic Determinism
-- **Modification:** Added a requirement for the host application to generate a single-use Canary Token ($Canary_t$) injected into the system prompt. All JSON schemas processed by the Deterministic Control Layer must be extended to enforce a `security_canary` field using `additionalProperties: false`, which is then deterministically verified against the expected token at runtime.
+- **Target Component:** Pilier I: Isolation Cognitive / Action Ledger
+- **Modification:** Added a strict JSON schema (with `"additionalProperties": false`) defining `ActionLedgerEntry`, requiring `transaction_id`, `timestamp`, `agent_id`, an `intent_proposal` object, and a `cryptographic_signature`. Established a multi-agent synchronization algorithm where the deterministic host sequentially validates signatures and schemas before committing state.
 
 ## Backward Compatibility
-This change requires an update to the system prompts and JSON schemas of all deployed autonomous agents. Implementations of v1.0.0-draft without Canary Token support will not be able to validate intents enforcing this new schema, requiring host applications to adopt the token generation mechanism and inject it into the prompt pipeline.
+This change is fully backward-compatible with v1.0.0-draft implementations. A single-agent system functions equivalently as a multi-agent system with a single participant writing to the Action Ledger.
