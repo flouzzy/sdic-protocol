@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR introduces SDIC-RFC-001, standardizing the Action Ledger data structure to ensure deterministic multi-agent synchronization. It implements a strict JSON schema for intent proposals and a cryptographic signing requirement for state transition requests.
+This PR introduces SDIC-RFC-0009, proposing the compilation of JSON Schemas into deterministic Finite State Machines (FSMs) for token-by-token validation. This addresses the architectural gap of latency overhead in the Guardrails layer by aborting invalid generation streams instantly rather than waiting for full completion.
 
 ## Rationale & Architectural Impact
-In multi-agent environments, allowing agents to independently propose unstructured state changes introduces race conditions and probabilistic outcomes. By forcing all agents to submit canonical, cryptographically signed, schema-validated intents to an append-only Action Ledger, the deterministic host system maintains absolute sequential authority over state transitions, completely isolating the persistence layer from the probabilistic agents.
+In high-frequency orchestration enterprise systems, post-generation schema validation wastes compute resources and introduces severe latency overheads when AI models generate non-compliant outputs. By enforcing token-by-token validation via FSM, the architecture prevents the AI from continuing to generate invalid payloads. This mathematically isolates the probabilistic generation process in real-time, ensuring zero-latency enforcement of the semantic bounds and protecting enterprise systems from wasting cycles on invalid state transitions.
 
 ## Proposed Specification Changes
-- **Target Component:** Pilier I: Isolation Cognitive / Action Ledger
-- **Modification:** Added a strict JSON schema (with `"additionalProperties": false`) defining `ActionLedgerEntry`, requiring `transaction_id`, `timestamp`, `agent_id`, an `intent_proposal` object, and a `cryptographic_signature`. Established a multi-agent synchronization algorithm where the deterministic host sequentially validates signatures and schemas before committing state.
+- **Target Component:** Deterministic Control Layer (Guardrails)
+- **Modification:** Added a requirement to pre-compile the strict JSON Schema into a deterministic Finite State Machine (FSM). Implemented token-by-token stream validation that instantly aborts the generation stream upon transitioning to an invalid state, terminating execution early. Added a strict JSON Configuration Schema `FSMGuardrailConfig`.
 
 ## Backward Compatibility
-This change is fully backward-compatible with v1.0.0-draft implementations. A single-agent system functions equivalently as a multi-agent system with a single participant writing to the Action Ledger.
+This change is fully backward-compatible. Systems implementing the `v1.0.0-draft` of SDIC-1 that are incapable of stream validation can seamlessly fall back to post-generation full-payload schema validation without any structural modifications.
