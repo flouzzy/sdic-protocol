@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR introduces SDIC-RFC-0009, proposing the compilation of JSON Schemas into deterministic Finite State Machines (FSMs) for token-by-token validation. This addresses the architectural gap of latency overhead in the Guardrails layer by aborting invalid generation streams instantly rather than waiting for full completion.
+This PR introduces RFC-001, standardizing the Action Ledger data structure for multi-agent synchronization. It provides a strict deterministic protocol to ensure that autonomous agents can propose state changes safely within the SDIC-1 framework.
 
 ## Rationale & Architectural Impact
-In high-frequency orchestration enterprise systems, post-generation schema validation wastes compute resources and introduces severe latency overheads when AI models generate non-compliant outputs. By enforcing token-by-token validation via FSM, the architecture prevents the AI from continuing to generate invalid payloads. This mathematically isolates the probabilistic generation process in real-time, ensuring zero-latency enforcement of the semantic bounds and protecting enterprise systems from wasting cycles on invalid state transitions.
+As multi-agent systems (Swarm Consensus) become more prevalent, the risk of concurrent state mutation and unstructured data injection by probabilistic agents increases. This RFC protects enterprise systems from such unpredictability by removing agents' self-regulation capabilities. Instead, it delegates validation to a deterministic host application that evaluates mathematically verifiable, cryptographically signed Action Ledger proposals against strict JSON Schemas.
 
 ## Proposed Specification Changes
-- **Target Component:** Deterministic Control Layer (Guardrails)
-- **Modification:** Added a requirement to pre-compile the strict JSON Schema into a deterministic Finite State Machine (FSM). Implemented token-by-token stream validation that instantly aborts the generation stream upon transitioning to an invalid state, terminating execution early. Added a strict JSON Configuration Schema `FSMGuardrailConfig`.
+- **Target Component:** Pilier 4: The Action Ledger (ecosystem/RFCs/RFC-001.md)
+- **Modification:** Added a strict JSON Schema (`SwarmIntentProposal`) with `"additionalProperties": false` for state change proposals. Implemented cryptographic non-repudiation rules requiring canonicalized payload signatures to prevent replay and relabeling attacks in multi-agent environments.
 
 ## Backward Compatibility
-This change is fully backward-compatible. Systems implementing the `v1.0.0-draft` of SDIC-1 that are incapable of stream validation can seamlessly fall back to post-generation full-payload schema validation without any structural modifications.
+This change is fully backward-compatible. It is a new addition to the SDIC-1 framework (v1.0.0-draft) that expands on the Action Ledger to support multi-agent synchronization without breaking existing single-agent implementations.
