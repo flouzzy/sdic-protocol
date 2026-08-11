@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR introduces RFC-001, standardizing the Action Ledger data structure for multi-agent synchronization. It provides a strict deterministic protocol to ensure that autonomous agents can propose state changes safely within the SDIC-1 framework.
+This PR introduces SDIC-ERC-0010, which standardizes a Runtime Semantic Firewall for mitigating prompt injection attacks at the runtime level. It establishes a deterministic preprocessing layer that strictly sanitizes and validates untrusted context inputs before they are injected into the AI Sandbox.
 
 ## Rationale & Architectural Impact
-As multi-agent systems (Swarm Consensus) become more prevalent, the risk of concurrent state mutation and unstructured data injection by probabilistic agents increases. This RFC protects enterprise systems from such unpredictability by removing agents' self-regulation capabilities. Instead, it delegates validation to a deterministic host application that evaluates mathematically verifiable, cryptographically signed Action Ledger proposals against strict JSON Schemas.
+As LLMs grow in capability, prompt injection via manipulated user input presents a critical attack vector that cannot be entirely mitigated by output schema validation (Pilier II) alone. If a model is thoroughly hijacked by malicious context, it may generate adversarial payloads designed to exploit the parsing layer itself. By placing a deterministic, strictly defined semantic firewall upstream of the AI, we physically strip out structural delimiters and executable characters before the cognitive model processes them. This drastically reduces the probability of cognitive hijacking, further protecting enterprise systems from AI unpredictability and malicious user input.
 
 ## Proposed Specification Changes
-- **Target Component:** Pilier 4: The Action Ledger (ecosystem/RFCs/RFC-001.md)
-- **Modification:** Added a strict JSON Schema (`SwarmIntentProposal`) with `"additionalProperties": false` for state change proposals. Implemented cryptographic non-repudiation rules requiring canonicalized payload signatures to prevent replay and relabeling attacks in multi-agent environments.
+- **Target Component:** Pilier I: Cognitive Isolation (ecosystem/RFCs/SDIC-ERC-0010.md)
+- **Modification:** Added a mandatory pre-processing step enforcing a strict JSON Schema (`SanitizedContextInput` with `additionalProperties: false` and strict regex validation) on all untrusted inputs prior to their concatenation with the system prompt.
 
 ## Backward Compatibility
-This change is fully backward-compatible. It is a new addition to the SDIC-1 framework (v1.0.0-draft) that expands on the Action Ledger to support multi-agent synchronization without breaking existing single-agent implementations.
+This change is fully backward compatible. It introduces an optional but highly recommended preprocessing step for the host application and does not alter the core Action Ledger or final Semantic Determinism layers defined in v1.0.0-draft.
