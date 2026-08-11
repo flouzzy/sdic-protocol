@@ -97,3 +97,7 @@ The host application MUST enforce the following JSON Schema on all untrusted inp
 ## 4. Backward Compatibility
 
 This specification is fully backward compatible. It acts as an optional (but highly recommended) pre-processing step for the host application and does not alter the core Action Ledger or final Semantic Determinism layers defined in v1.0.0-draft.
+
+## Copyright
+
+Copyright and related rights waived via [CC0](https://creativecommons.org/publicdomain/zero/1.0/).

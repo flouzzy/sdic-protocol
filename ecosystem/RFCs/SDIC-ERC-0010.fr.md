@@ -97,3 +97,7 @@ L'application hôte DOIT appliquer le Schéma JSON suivant sur toutes les entré
 ## 4. Rétrocompatibilité
 
 Cette spécification est entièrement rétrocompatible. Elle agit comme une étape de prétraitement optionnelle (mais fortement recommandée) pour l'application hôte et ne modifie pas le registre d'actions principal (Action Ledger) ni les couches finales de déterminisme sémantique définies dans la version 1.0.0-draft.
+
+## Copyright
+
+Droits d'auteur et droits connexes renoncés via [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
