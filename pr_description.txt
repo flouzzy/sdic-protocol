@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR introduces ERC-1001, defining a standardized data structure for the Action Ledger specifically tailored for multi-agent synchronization and Swarm Consensus. It addresses the architectural gap of unmanaged concurrent intents by imposing strict schema adherence and cryptographic non-repudiation on every agent proposal before state mutation.
+This PR introduces ERC-0011, establishing a Runtime Prompt Injection Filtering Standard via an Adversarial Verification Gate (AVG). It mathematically pre-screens semantic intents against isolated prompts using vector embeddings to block hostile logic wrapped in schema-compliant JSON.
 
 ## Rationale & Architectural Impact
-As enterprise systems integrate multi-agent swarms, the risk of conflicting state mutations and unauthorized payload tampering increases. By enforcing a strict JSON schema (`MultiAgentActionLedgerEntry`) with `additionalProperties: false` and requiring a signature over a canonical representation of the payload (excluding the signature itself), this update guarantees structural integrity and prevents replay or relabeling attacks in shared consensus environments. It preserves the deterministic control boundary while orchestrating probabilistic agents safely.
+Traditional schema validation (Semantic Determinism) prevents structural violations, but sophisticated prompt injections can coerce models into emitting grammatically correct but logically malicious intents. By calculating the semantic divergence (cosine similarity) between the isolated prompt and the generated intent, this standard creates a mathematical boundary that algorithmically neutralizes hostile prompt overrides before they ever reach the deterministic execution layer, fundamentally strengthening the enterprise from AI unpredictability.
 
 ## Proposed Specification Changes
-- **Target Component:** Pilier IV: The Action Ledger / Swarm Consensus
-- **Modification:** Added ERC-1001 specifying the `MultiAgentActionLedgerEntry` schema for multi-agent workflows. It strictly mandates `additionalProperties: false` globally and specifies a deterministic canonicalization and hashing process (SHA-256) for generating non-repudiable cryptographic signatures on action proposals.
+- **Target Component:** Pilier II: Semantic Determinism / Runtime Guard
+- **Modification:** Added a mandatory Adversarial Verification Gate (AVG) that executes *prior* to strict schema validation. This gate computes a semantic distance between prompt vectors and intent vectors, rejecting payloads that exceed a strict divergence threshold ($\tau < 0.15$), and logs the evaluation inside a new `AdversarialGateLogEntry` schema.
 
 ## Backward Compatibility
-This change is fully backward-compatible with v1.0.0-draft implementations. It introduces a new specialized schema for multi-agent swarm proposals and does not modify or break the base temporal auditability table used by single-agent setups.
+This change is fully backward-compatible with v1.0.0-draft implementations. The Adversarial Verification Gate is a forward-compatible pre-validation layer that does not mutate the existing Action Ledger or Semantic Determinism standard schemas.
