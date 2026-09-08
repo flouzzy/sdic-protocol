@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR introduces ERC-1001, defining a standardized data structure for the Action Ledger specifically tailored for multi-agent synchronization and Swarm Consensus. It addresses the architectural gap of unmanaged concurrent intents by imposing strict schema adherence and cryptographic non-repudiation on every agent proposal before state mutation.
+This PR introduces SDIC-ERC-0011, which standardizes a deterministic, pre-execution sanitization layer for semantic intents. This effectively neutralizes prompt injection attacks that manage to produce structurally valid JSON by filtering them at the runtime level.
 
 ## Rationale & Architectural Impact
-As enterprise systems integrate multi-agent swarms, the risk of conflicting state mutations and unauthorized payload tampering increases. By enforcing a strict JSON schema (`MultiAgentActionLedgerEntry`) with `additionalProperties: false` and requiring a signature over a canonical representation of the payload (excluding the signature itself), this update guarantees structural integrity and prevents replay or relabeling attacks in shared consensus environments. It preserves the deterministic control boundary while orchestrating probabilistic agents safely.
+Relying on probabilistic LLMs to self-detect prompt injections is mathematically flawed, as advanced injections bypass cognitive filters. By introducing a deterministic runtime rule engine that validates the output intent against strict business invariants, we ensure that malicious payloads are dropped before execution. This robustly protects enterprise systems from unpredictable AI behavior by shifting the defense from the probabilistic generation layer to the deterministic execution layer.
 
 ## Proposed Specification Changes
-- **Target Component:** Pilier IV: The Action Ledger / Swarm Consensus
-- **Modification:** Added ERC-1001 specifying the `MultiAgentActionLedgerEntry` schema for multi-agent workflows. It strictly mandates `additionalProperties: false` globally and specifies a deterministic canonicalization and hashing process (SHA-256) for generating non-repudiable cryptographic signatures on action proposals.
+- **Target Component:** Pilier I: Isolation Cognitive / Deterministic Control Layer
+- **Modification:** Added a mandatory "Sanitization" phase where the deterministic host evaluates structurally valid intents against hard-coded business rules (e.g., `amount <= user_balance`) before cryptographic signing and Action Ledger propagation.
 
 ## Backward Compatibility
-This change is fully backward-compatible with v1.0.0-draft implementations. It introduces a new specialized schema for multi-agent swarm proposals and does not modify or break the base temporal auditability table used by single-agent setups.
+This change is fully backward-compatible with v1.0.0-draft implementations. The deterministic sanitization phase is introduced as an optional but highly recommended step between the existing Schema Validation and Action Ledger propagation layers.
