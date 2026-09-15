@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR introduces ERC-0011, establishing a Runtime Prompt Injection Filtering Standard via an Adversarial Verification Gate (AVG). It mathematically pre-screens semantic intents against isolated prompts using vector embeddings to block hostile logic wrapped in schema-compliant JSON.
+This pull request introduces ERC-101 to standardize the Action Ledger schema for multi-agent synchronization and Swarm Consensus. It establishes a strict, cryptographically secured JSON Schema that autonomous agents must use to propose state transitions, preventing non-deterministic routing vulnerabilities in parallel execution environments.
 
 ## Rationale & Architectural Impact
-Traditional schema validation (Semantic Determinism) prevents structural violations, but sophisticated prompt injections can coerce models into emitting grammatically correct but logically malicious intents. By calculating the semantic divergence (cosine similarity) between the isolated prompt and the generated intent, this standard creates a mathematical boundary that algorithmically neutralizes hostile prompt overrides before they ever reach the deterministic execution layer, fundamentally strengthening the enterprise from AI unpredictability.
+As systems scale to utilize multiple parallel agents (Swarm Consensus), the risk of state degradation and chained prompt injection multiplies. By enforcing a standardized, language-agnostic intent ledger strictly governed by a JSON Schema with `"additionalProperties": false`, this change mathematically isolates the host's deterministic execution engine from the unpredictability of multi-agent interactions, ensuring state integrity is preserved.
 
 ## Proposed Specification Changes
-- **Target Component:** Pilier II: Semantic Determinism / Runtime Guard
-- **Modification:** Added a mandatory Adversarial Verification Gate (AVG) that executes *prior* to strict schema validation. This gate computes a semantic distance between prompt vectors and intent vectors, rejecting payloads that exceed a strict divergence threshold ($\tau < 0.15$), and logs the evaluation inside a new `AdversarialGateLogEntry` schema.
+- **Target Component:** Pilier IV: The Action Ledger
+- **Modification:** Added a standardized `SwarmConsensusIntent` JSON schema requiring cryptographic signatures, shared session IDs, and explicit payload definitions to regulate Swarm Consensus multi-agent orchestration.
 
 ## Backward Compatibility
-This change is fully backward-compatible with v1.0.0-draft implementations. The Adversarial Verification Gate is a forward-compatible pre-validation layer that does not mutate the existing Action Ledger or Semantic Determinism standard schemas.
+This change is fully backward-compatible with SDIC-1 v1.0.0-draft implementations. It operates as an extension for multi-agent capabilities without disrupting the core requirements defined for single-agent systems.
