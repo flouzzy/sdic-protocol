@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR introduces ERC-1001, defining a standardized data structure for the Action Ledger specifically tailored for multi-agent synchronization and Swarm Consensus. It addresses the architectural gap of unmanaged concurrent intents by imposing strict schema adherence and cryptographic non-repudiation on every agent proposal before state mutation.
+This Pull Request standardizes the "Action Ledger" data structure for multi-agent synchronization to address the architectural gap of multi-LLM orchestration vulnerabilities. It introduces a strict JSON Schema representation (`AgentIntentProposal`) ensuring deterministic and auditable payload shapes when multiple autonomous agents update shared state.
 
 ## Rationale & Architectural Impact
-As enterprise systems integrate multi-agent swarms, the risk of conflicting state mutations and unauthorized payload tampering increases. By enforcing a strict JSON schema (`MultiAgentActionLedgerEntry`) with `additionalProperties: false` and requiring a signature over a canonical representation of the payload (excluding the signature itself), this update guarantees structural integrity and prevents replay or relabeling attacks in shared consensus environments. It preserves the deterministic control boundary while orchestrating probabilistic agents safely.
+As enterprise systems transition towards Swarm Consensus and multi-agent coordination, relying on a unified, sequential, and strict ledger is essential to prevent state corruption. This upgrade protects enterprise systems from AI unpredictability by enforcing zero-trust schema validation (`additionalProperties: false`) and cryptographic non-repudiation on every intent proposal, ensuring only compliant and mathematically verified state transitions reach the execution layer.
 
 ## Proposed Specification Changes
-- **Target Component:** Pilier IV: The Action Ledger / Swarm Consensus
-- **Modification:** Added ERC-1001 specifying the `MultiAgentActionLedgerEntry` schema for multi-agent workflows. It strictly mandates `additionalProperties: false` globally and specifies a deterministic canonicalization and hashing process (SHA-256) for generating non-repudiable cryptographic signatures on action proposals.
+- **Target Component:** Pilier IV: The Action Ledger (Temporal Auditability) / Pilier II: Semantic Determinism
+- **Modification:** Added `ecosystem/RFCs/SDIC-ERC-1.md` (and French translation) which enforces a standardized `AgentIntentProposal` JSON Schema with strict `additionalProperties: false` rules for the `payload` and root objects. It also mandates that cryptographic signatures in multi-agent proposals exclude the signature field itself when calculating the canonical representation.
 
 ## Backward Compatibility
-This change is fully backward-compatible with v1.0.0-draft implementations. It introduces a new specialized schema for multi-agent swarm proposals and does not modify or break the base temporal auditability table used by single-agent setups.
+This change represents a new standard extension for multi-agent use cases and is fully backward-compatible with v1.0.0-draft implementations of single-agent host applications.
