@@ -1,12 +1,12 @@
 ## Summary of Changes
-This Pull Request standardizes the "Action Ledger" data structure for multi-agent synchronization to address the architectural gap of multi-LLM orchestration vulnerabilities. It introduces a strict JSON Schema representation (`AgentIntentProposal`) ensuring deterministic and auditable payload shapes when multiple autonomous agents update shared state.
+This PR introduces ERC-0011, establishing a Runtime Prompt Injection Filtering Standard via an Adversarial Verification Gate (AVG). It mathematically pre-screens semantic intents against isolated prompts using vector embeddings to block hostile logic wrapped in schema-compliant JSON.
 
 ## Rationale & Architectural Impact
-As enterprise systems transition towards Swarm Consensus and multi-agent coordination, relying on a unified, sequential, and strict ledger is essential to prevent state corruption. This upgrade protects enterprise systems from AI unpredictability by enforcing zero-trust schema validation (`additionalProperties: false`) and cryptographic non-repudiation on every intent proposal, ensuring only compliant and mathematically verified state transitions reach the execution layer.
+Traditional schema validation (Semantic Determinism) prevents structural violations, but sophisticated prompt injections can coerce models into emitting grammatically correct but logically malicious intents. By calculating the semantic divergence (cosine similarity) between the isolated prompt and the generated intent, this standard creates a mathematical boundary that algorithmically neutralizes hostile prompt overrides before they ever reach the deterministic execution layer, fundamentally strengthening the enterprise from AI unpredictability.
 
 ## Proposed Specification Changes
-- **Target Component:** Pilier IV: The Action Ledger (Temporal Auditability) / Pilier II: Semantic Determinism
-- **Modification:** Added `ecosystem/RFCs/SDIC-ERC-1.md` (and French translation) which enforces a standardized `AgentIntentProposal` JSON Schema with strict `additionalProperties: false` rules for the `payload` and root objects. It also mandates that cryptographic signatures in multi-agent proposals exclude the signature field itself when calculating the canonical representation.
+- **Target Component:** Pilier II: Semantic Determinism / Runtime Guard
+- **Modification:** Added a mandatory Adversarial Verification Gate (AVG) that executes *prior* to strict schema validation. This gate computes a semantic distance between prompt vectors and intent vectors, rejecting payloads that exceed a strict divergence threshold ($\tau < 0.15$), and logs the evaluation inside a new `AdversarialGateLogEntry` schema.
 
 ## Backward Compatibility
-This change represents a new standard extension for multi-agent use cases and is fully backward-compatible with v1.0.0-draft implementations of single-agent host applications.
+This change is fully backward-compatible with v1.0.0-draft implementations. The Adversarial Verification Gate is a forward-compatible pre-validation layer that does not mutate the existing Action Ledger or Semantic Determinism standard schemas.
