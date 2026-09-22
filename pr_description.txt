@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR introduces SDIC-ERC-0011, which standardizes a deterministic, pre-execution sanitization layer for semantic intents. This effectively neutralizes prompt injection attacks that manage to produce structurally valid JSON by filtering them at the runtime level.
+This pull request introduces SDIC-ERC-0012, which standardizes the Action Ledger data structure for asynchronous multi-agent synchronization. It provides a strict, deterministic, and cryptographically verified JSON schema to ensure safe state propagation across a multi-agent Swarm Consensus.
 
 ## Rationale & Architectural Impact
-Relying on probabilistic LLMs to self-detect prompt injections is mathematically flawed, as advanced injections bypass cognitive filters. By introducing a deterministic runtime rule engine that validates the output intent against strict business invariants, we ensure that malicious payloads are dropped before execution. This robustly protects enterprise systems from unpredictable AI behavior by shifting the defense from the probabilistic generation layer to the deterministic execution layer.
+As enterprise AI environments evolve to support multiple autonomous agents, unstructured agent-to-agent communication creates severe risks of state drift, prompt injection propagation, and relabeling attacks. By standardizing the Action Ledger as the only deterministic conduit for agent orchestration, this RFC protects the enterprise system from AI unpredictability. It ensures that agents cannot directly mutate shared state, forcing them instead to submit strictly validated, mathematically signed intent proposals to the host system.
 
 ## Proposed Specification Changes
-- **Target Component:** Pilier I: Isolation Cognitive / Deterministic Control Layer
-- **Modification:** Added a mandatory "Sanitization" phase where the deterministic host evaluates structurally valid intents against hard-coded business rules (e.g., `amount <= user_balance`) before cryptographic signing and Action Ledger propagation.
+- **Target Component:** Pilier IV: Action Ledger / Swarm Consensus
+- **Modification:** Introduces the `MultiAgentSyncIntent` JSON Schema that strictly enforces `"additionalProperties": false` to instantly neutralize prompt injection payloads. It also mandates cryptographic signature validation over a canonicalized payload string to ensure non-repudiation and prevent man-in-the-middle relabeling attacks during agent orchestration.
 
 ## Backward Compatibility
-This change is fully backward-compatible with v1.0.0-draft implementations. The deterministic sanitization phase is introduced as an optional but highly recommended step between the existing Schema Validation and Action Ledger propagation layers.
+This change is fully backward-compatible with SDIC-1 v1.0.0-draft implementations. It functions as an extension to the existing Action Ledger concept without breaking single-agent setups, as they can safely ignore `correlation_id` and swarm coordination intent actions.
