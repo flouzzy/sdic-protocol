@@ -1,12 +1,16 @@
 ## Summary of Changes
-This pull request introduces SDIC-ERC-0012, which standardizes the Action Ledger data structure for asynchronous multi-agent synchronization. It provides a strict, deterministic, and cryptographically verified JSON schema to ensure safe state propagation across a multi-agent Swarm Consensus.
+
+This PR introduces SDIC-ERC-42 to standardize the Action Ledger data structure for asynchronous multi-agent orchestration. By formalizing the `Intent_Proposal` schema and a consensus workflow, it resolves the architectural gap of unpredictable state mutations when multiple agents interact concurrently.
 
 ## Rationale & Architectural Impact
-As enterprise AI environments evolve to support multiple autonomous agents, unstructured agent-to-agent communication creates severe risks of state drift, prompt injection propagation, and relabeling attacks. By standardizing the Action Ledger as the only deterministic conduit for agent orchestration, this RFC protects the enterprise system from AI unpredictability. It ensures that agents cannot directly mutate shared state, forcing them instead to submit strictly validated, mathematically signed intent proposals to the host system.
+
+Direct inter-agent communication in Swarm architectures compounded by probabilistic outputs introduces severe risks of race conditions, untraceable state degradation, and routing vulnerabilities. This ERC mandates that agents can never modify shared state or communicate directly; instead, they must cryptographically sign and submit an `Intent_Proposal` to a deterministic Host (Conductor) layer. This protects enterprise systems by guaranteeing that all agent actions are verified against strict structural rules and cryptographic identities before a single, atomic state transition is executed.
 
 ## Proposed Specification Changes
-- **Target Component:** Pilier IV: Action Ledger / Swarm Consensus
-- **Modification:** Introduces the `MultiAgentSyncIntent` JSON Schema that strictly enforces `"additionalProperties": false` to instantly neutralize prompt injection payloads. It also mandates cryptographic signature validation over a canonicalized payload string to ensure non-repudiation and prevent man-in-the-middle relabeling attacks during agent orchestration.
+
+- **Target Component:** Pilier IV: The Action Ledger (Temporal Auditability) / Swarm Consensus
+- **Modification:** Added a new ERC (`ecosystem/RFCs/SDIC-ERC-42.md`) that defines the mandatory `Intent_Proposal` JSON Schema with strict `"additionalProperties": false` constraints. It establishes a required consensus workflow where a host application validates schemas and cryptographic signatures from multiple agents before committing to the Action Ledger.
 
 ## Backward Compatibility
-This change is fully backward-compatible with SDIC-1 v1.0.0-draft implementations. It functions as an extension to the existing Action Ledger concept without breaking single-agent setups, as they can safely ignore `correlation_id` and swarm coordination intent actions.
+
+This change is fully backward-compatible with v1.0.0-draft implementations. It introduces a new standard extension specifically for multi-agent capabilities and does not alter the fundamental core schema or single-agent orchestration rules defined in the base specification.
