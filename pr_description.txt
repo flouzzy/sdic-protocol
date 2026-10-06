@@ -1,25 +1,12 @@
 ## Summary of Changes
-
-This Pull Request introduces **SDIC-ERC-0013** (in both English and French: `SDIC-ERC-0013.md` and `SDIC-ERC-0013.fr.md`), defining an external auditability framework and quantified safety guarantee standard for autonomous agents and reinforcement learning (RL) policies operating within critical safety domains (e.g., medical dosage administration, robotic actuation).
-
-Key additions include:
-- A mathematical framework for quantified safety guarantees enforcing failure probability upper bounds ($P(\text{Violation}) \le \epsilon$).
-- Domain-specific JSON Schemas for medical action intents and robotic actuation proposals with strict `"additionalProperties": false` constraints.
-- A verifiable external audit certificate schema (`VerifiableAuditCertificate`) enabling third-party cryptographically verifiable compliance checking.
-- Canonical JSON representation (RFC 8785) hashing and Ed25519 signature verification instructions to prevent replay and relabeling attacks.
-- Bilingual documentation in English and French with mutual cross-navigation links.
+This PR introduces SDIC-ERC-42 to standardize the Action Ledger data structure for asynchronous multi-agent orchestration. By formalizing the `Intent_Proposal` schema and a consensus workflow, it resolves the architectural gap of unpredictable state mutations when multiple agents interact concurrently.
 
 ## Rationale & Architectural Impact
-
-As autonomous AI agents and reinforcement learning policies transition into high-consequence domains such as healthcare and physical robotics, probabilistic model outputs pose unacceptable liability and physical safety risks. Traditional black-box testing cannot guarantee boundary compliance when policies adapt dynamically to infinite state spaces.
-
-SDIC-ERC-0013 extends Pilier 2 (Semantic Determinism) and Pilier 4 (Action Ledger) of the SDIC Protocol by enforcing deterministic runtime safety barriers and cryptographically verifiable audit trails. Third-party auditors can evaluate execution safety without access to proprietary model weights, resolving the certification bottleneck for critical autonomous systems.
+Direct inter-agent communication in Swarm architectures compounded by probabilistic outputs introduces severe risks of race conditions, untraceable state degradation, and routing vulnerabilities. This ERC mandates that agents can never modify shared state or communicate directly; instead, they must cryptographically sign and submit an `Intent_Proposal` to a deterministic Host (Conductor) layer. This protects enterprise systems by guaranteeing that all agent actions are verified against strict structural rules and cryptographic identities before a single, atomic state transition is executed.
 
 ## Proposed Specification Changes
-
-1. **`ecosystem/RFCs/SDIC-ERC-0013.md`**: Created standard track EIP/ERC proposal establishing external auditability, safety barrier functions, domain-specific schemas, canonical cryptographic proof of intent, and interaction sequence diagrams.
-2. **`ecosystem/RFCs/SDIC-ERC-0013.fr.md`**: Created French translation of SDIC-ERC-0013 maintaining full parity and cross-navigation links.
+- **Target Component:** Pilier IV: The Action Ledger (Temporal Auditability) / Swarm Consensus
+- **Modification:** Added a new ERC (`ecosystem/RFCs/SDIC-ERC-42.md` and `.fr.md`) that defines the mandatory `Intent_Proposal` JSON Schema with strict `"additionalProperties": false` constraints. It establishes a required consensus workflow where a host application validates schemas and cryptographic signatures from multiple agents before committing to the Action Ledger.
 
 ## Backward Compatibility
-
-SDIC-ERC-0013 is fully backward-compatible with SDIC-1 and existing SDIC-ERC specifications. It introduces optional domain-specific schema extensions and audit certificate representations that do not modify core SDIC-1 ledger persistence or state transition mechanics.
+This change is fully backward-compatible with v1.0.0-draft implementations. It introduces a new standard extension specifically for multi-agent capabilities and does not alter the fundamental core schema or single-agent orchestration rules defined in the base specification.
