@@ -1,41 +1,41 @@
 ---
-eip: 42
-title: Standard Schema for Asynchronous Multi-Agent Orchestration
-description: A standard data structure and consensus workflow for multi-agent asynchronous orchestration within the SDIC-1 protocol.
+erc: 42
+title: Standard Schema for Asynchronous Multi-Agent Orchestration (Swarm Consensus)
+description: Defines the standard Intent_Proposal data structure and consensus workflow for multi-agent synchronization.
 author: Jules
 status: Draft
 type: Standards Track
-category: ERC
-created: 2026-09-01
+created: 2026-10-15
+license: CC0 1.0 Universal
 ---
 
 ## Abstract
 
-This standard defines the `Intent_Proposal` schema and consensus workflow required to synchronize multiple autonomous agents operating within the SDIC-1 framework. It addresses the architectural gap of multi-agent state management by standardizing the Action Ledger data structure to prevent unpredictable state mutations during asynchronous agent orchestration.
+This standard defines a strict architecture and data structure for synchronizing state mutations requested by multiple autonomous agents within the SDIC-1 framework. It introduces the `Intent_Proposal` schema and mandates a centralized, deterministic Host application (the Conductor) to validate, aggregate, and commit multi-agent proposals to the Action Ledger using Swarm Consensus.
 
 ## Motivation
 
-As AI-native development shifts towards multi-agent (Swarm) architectures, a single agent's probabilistic outputs are compounded by asynchronous interactions with other agents. Direct inter-agent communication and state modification lead to race conditions, untraceable state degradation, and routing vulnerabilities. This ERC formalizes the synchronization of multi-agent intents through a deterministic, cryptographically secure consensus layer.
+In multi-agent architectures, direct inter-agent communication combined with probabilistic outputs introduces severe risks of race conditions, untraceable state degradation, and routing vulnerabilities. An agentic Swarm must not mutate shared state directly or negotiate state changes autonomously. Instead, there must be a mathematically sound and deterministic way to reach consensus among agents and safely persist those decisions to the Action Ledger.
+
+### Analogy: The Parliamentary Session
+
+Imagine a parliamentary session where no single representative holds the power to pass a law alone. Instead, each representative independently drafts a formal, signed legislative proposal and submits it directly to a strictly neutral speaker of the house. The speaker does not debate; they only ensure every proposal perfectly matches the constitutional template. Only when a quorum of valid, structurally identical proposals is achieved does the speaker strike the gavel, permanently inscribing the unified decision into the official legal registry.
+
+#### Technical Mapping
+
+- **The Representatives:** The Autonomous Agents operating in isolated cognitive sandboxes. They compute and decide independently.
+- **The Formal Legislative Proposal:** The `Intent_Proposal`. It is a structured intent representing an agent's individual vote or requested action.
+- **The Neutral Speaker of the House:** The Conductor (Deterministic Control Layer). It enforces absolute rules and does not possess cognitive reasoning.
+- **The Constitutional Template:** The strict JSON Schema and cryptographic verification mechanisms. If a proposal deviates, it is silently discarded.
+- **The Official Legal Registry:** The Action Ledger. It records the final, deterministic state transition only after consensus is achieved.
 
 ## Specification
 
-### 1. The Symphony Conductor Analogy
+To prevent asynchronous collisions, agents MUST NOT execute direct mutations on shared resources. All multi-agent architectures MUST rely on the `Intent_Proposal` mechanism.
 
-Imagine a massive symphony orchestra where each musician is highly skilled but completely deaf to the others. If they all play simultaneously without coordination, the result is chaotic noise.
+### The Intent Proposal Schema
 
-To create music, we introduce a silent Conductor standing at a central podium. The musicians never speak to each other directly. Instead, each musician writes down the exact note they intend to play on a piece of paper, signs their name on it, and hands it to the Conductor. The Conductor reads all the proposed notes, checks them against the master sheet music, and only if the notes harmonize, does the Conductor strike the baton, allowing the entire orchestra to play those notes simultaneously.
-
-### 2. Technical Mapping
-
-- **The Musicians (Autonomous Agents):** These are the individual AI agents. They operate in isolation and cannot communicate directly with one another or modify the shared state.
-- **The Written Note (Intent Proposal):** This is the `Intent_Proposal` JSON object. It represents the intended action an agent wishes to perform.
-- **The Signature (Cryptographic Identity):** Each agent cryptographically signs their canonical `Intent_Proposal` to ensure non-repudiation and prevent tampering.
-- **The Conductor (Deterministic Control Layer):** The deterministic host application that collects, validates, and evaluates the intents against the system's consensus rules (the master sheet music).
-- **The Strike of the Baton (Action Ledger Commit):** The final, atomic state transition executed by the host only after consensus is achieved.
-
-### 3. Intent Proposal Schema
-
-The `Intent_Proposal` must strictly adhere to the following JSON Schema. To guarantee determinism and mitigate injection risks, all objects enforce `"additionalProperties": false`.
+An `Intent_Proposal` represents an agent's localized decision regarding a shared state transition. The schema MUST strictly define all required properties and enforce `"additionalProperties": false` across all levels.
 
 ```json
 {
@@ -43,61 +43,88 @@ The `Intent_Proposal` must strictly adhere to the following JSON Schema. To guar
   "title": "Intent_Proposal",
   "type": "object",
   "properties": {
+    "proposal_id": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F-]{36}$",
+      "description": "Unique identifier of the multi-agent consensus session."
+    },
     "agent_id": {
       "type": "string",
-      "pattern": "^[0-9a-fA-F-]{36}$"
+      "pattern": "^[0-9a-fA-F-]{36}$",
+      "description": "The identifier of the proposing agent."
     },
-    "correlation_id": {
-      "type": "string",
-      "pattern": "^[0-9a-fA-F-]{36}$"
-    },
-    "proposed_action": {
+    "proposed_state_mutation": {
       "type": "object",
       "properties": {
-        "operation": {
-          "type": "string"
-        },
-        "parameters": {
-          "type": "object",
-          "additionalProperties": false
-        }
+        "target_entity": { "type": "string" },
+        "operation": { "type": "string", "enum": ["CREATE", "UPDATE", "DELETE", "MERGE"] },
+        "payload": { "type": "string" }
       },
-      "required": ["operation", "parameters"],
+      "required": ["target_entity", "operation", "payload"],
       "additionalProperties": false
     },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
     "cryptographic_signature": {
-      "type": "string"
+      "type": "string",
+      "description": "The signature over the canonical representation of the Intent_Proposal (excluding this signature field)."
     }
   },
-  "required": ["agent_id", "correlation_id", "proposed_action", "cryptographic_signature"],
+  "required": [
+    "proposal_id",
+    "agent_id",
+    "proposed_state_mutation",
+    "confidence_score",
+    "cryptographic_signature"
+  ],
   "additionalProperties": false
 }
 ```
 
-### 4. Consensus Workflow Diagram
+### The Swarm Consensus Workflow
 
-The following UML ASCII sequence diagram illustrates the lifecycle of multi-agent intent proposals through the deterministic consensus layer.
+When multiple agents participate in a shared session, the Conductor (Deterministic Control Layer) facilitates consensus.
+
+1. **Emission:** Each Agent $A_i$ generates an $Intent\_Proposal_i$ in isolation.
+2. **Canonical Hashing & Signing:** Before emission, the agent serializes the JSON (excluding `cryptographic_signature`) into a strict canonical string, hashes it, and signs it with its Private Key.
+3. **Verification:** The Conductor receives the proposals. It first validates the JSON Schema (must return exactly $1$ for success). Then, it verifies the signature against the registered Public Key of the agent.
+4. **Aggregation:** The Conductor collects verified proposals matching the same `proposal_id` over a defined temporal window.
+5. **Consensus Evaluation:** If the mathematical conditions for consensus (e.g., $N > \text{Threshold}$ matching `proposed_state_mutation`) are met, the Conductor generates a final deterministic `Intent` to be committed to the Action Ledger.
+6. **Execution:** The business logic mutates the state.
+
+#### UML Sequence Diagram
 
 ```text
-+---------+       +---------+       +-------------------+       +---------------+
-| Agent A |       | Agent B |       | Host (Conductor)  |       | Action Ledger |
-+---------+       +---------+       +-------------------+       +---------------+
-     |                 |                      |                         |
-     |--- Intent A --->|                      |                         |
-     |                 |--- Intent B -------->|                         |
-     |                 |                      |                         |
-     |                 |                      |-- Validate Schema ----->|
-     |                 |                      |                         |
-     |                 |                      |-- Validate Sigs ------->|
-     |                 |                      |                         |
-     |                 |                      |-- Evaluate Consensus -->|
-     |                 |                      |                         |
-     |                 |                      |-- Commit State (Atomic)>|
-     |                 |                      |                         |
-+---------+       +---------+       +-------------------+       +---------------+
++---------+         +---------+           +-----------+            +---------------+
+| Agent A |         | Agent B |           | Conductor |            | Action Ledger |
++---------+         +---------+           +-----------+            +---------------+
+     |                   |                      |                          |
+     | Intent_Proposal A |                      |                          |
+     |----------------------------------------->|                          |
+     |                   |                      |                          |
+     |                   | Intent_Proposal B    |                          |
+     |                   |--------------------->|                          |
+     |                   |                      |                          |
+     |                   |                      | Validate JSON Schema     |
+     |                   |                      | Verify Signatures        |
+     |                   |                      | Aggregate & Consensus    |
+     |                   |                      |------------------------> |
+     |                   |                      |                          |
+     |                   |                      |                          | Commit Action
+     |                   |                      |                          |
 ```
 
-## Security Considerations
+## Rationale
 
-- The `cryptographic_signature` must be generated over the canonical representation of the `Intent_Proposal` (excluding the signature field itself) to prevent relabeling.
-- The Host must enforce consensus timeout mechanisms to prevent indefinite hanging if an agent fails to submit an intent.
+This specification ensures that the unpredictable nature of multiple interacting AI agents is mathematically confined. By shifting the responsibility of state synchronization from the agents (probabilistic) to the Conductor (deterministic), we completely eliminate race conditions and direct data manipulation by unverified agentic loops. Enforcing `"additionalProperties": false` removes the surface area for prompt injections attempting to smuggle unrecognized commands through the consensus layer.
+
+## Backward Compatibility
+
+This ERC is strictly an extension for multi-agent capabilities and is fully backward-compatible with SDIC-1 v1.0.0-draft single-agent implementations. The new `Intent_Proposal` schema does not deprecate or alter the base Action Ledger mechanics; it merely standardizes a pre-computation layer before final ledger commit.
+
+## Copyright
+
+Copyright and related rights waived via [CC0](https://creativecommons.org/publicdomain/zero/1.0/).

@@ -1,16 +1,12 @@
 ## Summary of Changes
-
 This PR introduces SDIC-ERC-42 to standardize the Action Ledger data structure for asynchronous multi-agent orchestration. By formalizing the `Intent_Proposal` schema and a consensus workflow, it resolves the architectural gap of unpredictable state mutations when multiple agents interact concurrently.
 
 ## Rationale & Architectural Impact
-
 Direct inter-agent communication in Swarm architectures compounded by probabilistic outputs introduces severe risks of race conditions, untraceable state degradation, and routing vulnerabilities. This ERC mandates that agents can never modify shared state or communicate directly; instead, they must cryptographically sign and submit an `Intent_Proposal` to a deterministic Host (Conductor) layer. This protects enterprise systems by guaranteeing that all agent actions are verified against strict structural rules and cryptographic identities before a single, atomic state transition is executed.
 
 ## Proposed Specification Changes
-
 - **Target Component:** Pilier IV: The Action Ledger (Temporal Auditability) / Swarm Consensus
-- **Modification:** Added a new ERC (`ecosystem/RFCs/SDIC-ERC-42.md`) that defines the mandatory `Intent_Proposal` JSON Schema with strict `"additionalProperties": false` constraints. It establishes a required consensus workflow where a host application validates schemas and cryptographic signatures from multiple agents before committing to the Action Ledger.
+- **Modification:** Added a new ERC (`ecosystem/RFCs/SDIC-ERC-42.md` and `.fr.md`) that defines the mandatory `Intent_Proposal` JSON Schema with strict `"additionalProperties": false` constraints. It establishes a required consensus workflow where a host application validates schemas and cryptographic signatures from multiple agents before committing to the Action Ledger.
 
 ## Backward Compatibility
-
 This change is fully backward-compatible with v1.0.0-draft implementations. It introduces a new standard extension specifically for multi-agent capabilities and does not alter the fundamental core schema or single-agent orchestration rules defined in the base specification.
