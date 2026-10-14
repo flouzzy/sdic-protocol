@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR introduces SDIC-ERC-42 to standardize the Action Ledger data structure for asynchronous multi-agent orchestration. By formalizing the `Intent_Proposal` schema and a consensus workflow, it resolves the architectural gap of unpredictable state mutations when multiple agents interact concurrently.
+This PR introduces SDIC-ERC-0014 to standardize a low-latency streaming guardrails layer for the SDIC protocol. By enforcing token-streaming deterministic validation, it resolves the architectural gap of latency overhead caused by waiting for full probabilistic intent generation before applying semantic schema checks.
 
 ## Rationale & Architectural Impact
-Direct inter-agent communication in Swarm architectures compounded by probabilistic outputs introduces severe risks of race conditions, untraceable state degradation, and routing vulnerabilities. This ERC mandates that agents can never modify shared state or communicate directly; instead, they must cryptographically sign and submit an `Intent_Proposal` to a deterministic Host (Conductor) layer. This protects enterprise systems by guaranteeing that all agent actions are verified against strict structural rules and cryptographic identities before a single, atomic state transition is executed.
+In traditional enterprise AI integration, guardrails act as a blocking operation, causing significant latency overhead and wasting compute resources if the AI hallucinates an invalid property early in generation. This ERC mandates a continuous streaming inspection layer that evaluates partial JSON structures in real-time. This protects enterprise systems from AI unpredictability by enforcing the mathematical boundary continuously, allowing the connection to be killed instantly upon schema violation and preventing non-compliant intents from consuming unnecessary processing time.
 
 ## Proposed Specification Changes
-- **Target Component:** Pilier IV: The Action Ledger (Temporal Auditability) / Swarm Consensus
-- **Modification:** Added a new ERC (`ecosystem/RFCs/SDIC-ERC-42.md` and `.fr.md`) that defines the mandatory `Intent_Proposal` JSON Schema with strict `"additionalProperties": false` constraints. It establishes a required consensus workflow where a host application validates schemas and cryptographic signatures from multiple agents before committing to the Action Ledger.
+- **Target Component:** Pilier II: Semantic Determinism (Guardrails Layer)
+- **Modification:** Added a new ERC (`ecosystem/RFCs/SDIC-ERC-0014.md` and `.fr.md`) that defines the mandatory `StreamingGuardrailConfig` JSON Schema with strict `"additionalProperties": false` constraints. It establishes an optimization mechanism for schema validation from a post-generation blocking operation to an in-flight continuous validation process that aborts on the first violation.
 
 ## Backward Compatibility
-This change is fully backward-compatible with v1.0.0-draft implementations. It introduces a new standard extension specifically for multi-agent capabilities and does not alter the fundamental core schema or single-agent orchestration rules defined in the base specification.
+This specification is fully backward-compatible. It operates as an optimization mechanism over the existing Semantic Determinism layer defined in v1.0.0-draft. Host applications that do not support streaming can gracefully degrade to the standard, blocking JSON validation without any loss of security guarantees.
