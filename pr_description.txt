@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR standardizes the "Action Ledger" data structure to facilitate multi-agent synchronization and Swarm Consensus. It implements a strict JSON schema for intent proposals, forcing deterministic inter-agent communication instead of probabilistic direct interaction.
+This PR introduces SDIC-ERC-0043, which standardizes the "Action Ledger" data structure specifically designed for multi-agent synchronization. It provides a strict, zero-trust JSON schema and orchestration sequence to ensure agents can safely coordinate state transitions without direct access to each other.
 
 ## Rationale & Architectural Impact
-Unstructured agent-to-agent communication risks state drift, race conditions, and prompt injection propagation. By standardizing an append-only Action Ledger with strict schema validation (`"additionalProperties": false`) and cryptographic canonical verification, this upgrade mathematically confines multi-agent orchestration. It protects enterprise systems by ensuring agents only communicate via deterministic, host-verified intents.
+As critical enterprise systems adopt Swarm architectures, relying on unstructured LLM-to-LLM prompt interactions for state changes introduces severe risks of semantic drift and prompt-injection-driven execution. By forcing all multi-agent proposals through a mathematically verifiable schema with a cryptographic proof of intent (Pilier IV), this upgrade mathematically eliminates the possibility of unauthorized direct agent-to-agent state corruption.
 
 ## Proposed Specification Changes
 - **Target Component:** Pilier IV: The Action Ledger
-- **Modification:** Added a strict JSON schema (`MultiAgentActionLedgerEntry`) enforcing `"additionalProperties": false` and a unified structure (including `correlation_id` and canonical cryptographic signatures) to act as the single source of truth for Swarm Consensus.
+- **Modification:** Added a canonical `MultiAgentSyncProposal` JSON Schema setting `"additionalProperties": false` and defined a deterministic orchestration sequence requiring cryptographic canonicalization of agent intents prior to ledger validation.
 
 ## Backward Compatibility
-This change is fully backward-compatible with v1.0.0-draft implementations. Single-agent setups can safely ignore multi-agent fields (`correlation_id`, swarm proposed actions), while multi-agent setups simply enforce this schema on existing Action Ledger mechanics.
+This change is fully backward-compatible with v1.0.0-draft implementations. It strictly extends the concept of the Action Ledger by providing a specialized payload schema for Swarm environments without modifying the underlying ledger base requirements (like transaction IDs).
