@@ -1,12 +1,12 @@
 ## Summary of Changes
-This PR introduces SDIC-ERC-0043, which standardizes the "Action Ledger" data structure specifically designed for multi-agent synchronization. It provides a strict, zero-trust JSON schema and orchestration sequence to ensure agents can safely coordinate state transitions without direct access to each other.
+This PR introduces SDIC-ERC-0088, which proposes an enhancement to neutralize prompt injection attacks at the runtime level via Deterministic Execution Mapping. By obfuscating sensitive parameters into single-use cryptographic tokens (UUIDs) before context ingestion, the autonomous agent is forced to return these tokens instead of arbitrary strings.
 
 ## Rationale & Architectural Impact
-As critical enterprise systems adopt Swarm architectures, relying on unstructured LLM-to-LLM prompt interactions for state changes introduces severe risks of semantic drift and prompt-injection-driven execution. By forcing all multi-agent proposals through a mathematically verifiable schema with a cryptographic proof of intent (Pilier IV), this upgrade mathematically eliminates the possibility of unauthorized direct agent-to-agent state corruption.
+Prompt injection payloads often attempt to trick the AI into emitting unauthorized commands or altering sensitive string parameters. While Semantic Determinism (Pilier II) ensures the output format is valid, it traditionally cannot distinguish between a legitimate and a maliciously forged string. By enforcing a deterministic token map, this upgrade eliminates the AI's ability to synthesize arbitrary string commands, reducing the attack surface for parameterized intents to zero.
 
 ## Proposed Specification Changes
-- **Target Component:** Pilier IV: The Action Ledger
-- **Modification:** Added a canonical `MultiAgentSyncProposal` JSON Schema setting `"additionalProperties": false` and defined a deterministic orchestration sequence requiring cryptographic canonicalization of agent intents prior to ledger validation.
+- **Target Component:** Pilier II: Semantic Determinism
+- **Modification:** Added a requirement for "Deterministic Execution Mapping" where the host application maps sensitive parameters to unique UUIDs, and introduced a standardized `MappedExecutionIntent` JSON schema that enforces `"additionalProperties": false` and strictly requires UUID formatting for these parameterized fields.
 
 ## Backward Compatibility
-This change is fully backward-compatible with v1.0.0-draft implementations. It strictly extends the concept of the Action Ledger by providing a specialized payload schema for Swarm environments without modifying the underlying ledger base requirements (like transaction IDs).
+This is a breaking change for systems that currently rely on the LLM to output raw string parameters for execution. Host applications must be updated to implement the token generation and reversal mapping algorithm, and the corresponding JSON schemas must be updated to expect UUID formats instead of strings.
